@@ -1,0 +1,36 @@
+#include <Servo.h>
+
+Servo myservo;  // create servo object to control a servo
+int button1 = 2;              //push button 1   
+int button2 = 3;             //push button 2
+int angle = 0;
+int angleStep1 = 45;
+int angleStep2 = -45;
+
+
+void setup() {
+  myservo.attach(9);                     // attaches the servo on pin 9 to the servo object
+  pinMode(button1,INPUT_PULLUP);          // button 1 as input
+  pinMode(button2,INPUT_PULLUP);          // button 2 as input
+}
+
+void loop() {
+  // push button 1 is pressed rotate 45 deg cw
+  while(digitalRead(button1) == LOW){
+    angle = angle + angleStep1;
+      myservo.write(angle);// move servos to center position -> 45° cw
+       delay(100); // waits for the servo to get there
+       break;
+  }
+ 
+ // push button 2 is pressed rotate 45 deg ccw
+
+  while(digitalRead(button2) == LOW){
+       angle = angle + angleStep2;
+      myservo.write(angle);// move servos to center position -> 45° ccw
+       delay(100); // waits for the servo to get there
+       break;
+  }
+
+  
+}
