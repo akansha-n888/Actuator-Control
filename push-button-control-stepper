@@ -1,0 +1,23 @@
+#include <Stepper.h>
+const int stepsPerRevolution = 2048;
+Stepper myStepper = Stepper(stepsPerRevolution, 11, 9, 10, 8);
+void setup() {
+  myStepper.setSpeed(5);
+  pinMode(2, INPUT_PULLUP);
+  pinMode(3, INPUT_PULLUP);
+  Serial.begin(9600);
+}
+void loop() {
+ while (digitalRead(2) == LOW) {
+  Serial.println("clockwise");
+  myStepper.step(stepsPerRevolution/8);
+  delay(500);
+ }
+
+  // Step one revolution in the other direction:
+  Serial.println("counterclockwise");
+  myStepper.step(-stepsPerRevolution/8);
+  delay(500);
+
+}
+ 
