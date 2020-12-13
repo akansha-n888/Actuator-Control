@@ -1,0 +1,37 @@
+#include <Servo.h>
+#include <Stepper.h>
+Servo servo;
+const int stepsPerRevolution = 2048;
+Stepper stepper = Stepper(stepsPerRevolution, 11, 9, 10, 8);
+int angle = 90;
+int stepperval;
+int servoval;
+
+void setup() {
+  servo.attach(7);
+  servo.write(angle);
+  pinMode(A0, INPUT_PULLUP);
+  pinMode(A1, INPUT_PULLUP);
+  digitalWrite(A1, HIGH);
+  digitalWrite(A0, HIGH);
+  Serial.begin(9600);
+}
+
+void loop() {
+
+  servoval = map(analogRead(A0), 0, 1023, 0, 180);
+  servo.write(servoval);
+
+  if (analogRead(A1) < 420) { //400 works (range of joystick)
+    stepperval = map(analogRead(A1), 0, 1023, 10, 0);
+    Serial.print(stepperval);
+    stepper.setSpeed(stepperval);
+    stepper.step(1);
+  }
+  if (analogRead(A1) > 580) { //580 lowest range
+    stepperval = map(analogRead(A1), 0, 1023, 0, 10); //10 is the limit
+    Serial.print(stepperval);
+    stepper.setSpeed(stepperval);
+    stepper.step(-1);
+  }
+}
