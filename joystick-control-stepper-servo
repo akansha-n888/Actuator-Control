@@ -1,3 +1,5 @@
+//joystick to control stepper and servo motor
+
 #include <Servo.h>
 #include <Stepper.h>
 Servo servo;
@@ -22,14 +24,14 @@ void loop() {
   servoval = map(analogRead(A0), 0, 1023, 0, 180);
   servo.write(servoval);
 
-  if (analogRead(A1) < 420) { //400 works (range of joystick)
+  if (analogRead(A1) < 420) {                           //400 works (range of joystick)
     stepperval = map(analogRead(A1), 0, 1023, 10, 0);
     Serial.print(stepperval);
     stepper.setSpeed(stepperval);
     stepper.step(1);
   }
   if (analogRead(A1) > 580) { //580 lowest range
-    stepperval = map(analogRead(A1), 0, 1023, 0, 10); //10 is the limit
+    stepperval = map(analogRead(A1), 0, 1023, 0, 10);   //10 is the limit
     Serial.print(stepperval);
     stepper.setSpeed(stepperval);
     stepper.step(-1);
